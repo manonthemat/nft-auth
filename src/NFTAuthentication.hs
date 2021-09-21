@@ -45,7 +45,7 @@ policy :: PubKeyHash -> Scripts.MintingPolicy
 policy pkh = mkMintingPolicyScript $
     $$(PlutusTx.compile [|| Scripts.wrapMintingPolicy . mkPolicy ||])
     `PlutusTx.applyCode`
-    (PlutusTx.liftCode pkh)
+    PlutusTx.liftCode pkh
 
 curSymbol :: PubKeyHash -> CurrencySymbol
 curSymbol = scriptCurrencySymbol . policy
@@ -53,13 +53,13 @@ curSymbol = scriptCurrencySymbol . policy
 type NFTAuthenticationSchema =
                   Endpoint "mint" Wallet
               .\/ Endpoint "inspect" String
-              .\/ Endpoint "logOwnNftTokenName" Integer   {-Yet to figure out how to make this work .\/ Endpoint "logPkh" ()-}    
+              .\/ Endpoint "logOwnNftTokenName" ()
 
 mint :: forall w s e. AsContractError e => Wallet -> Contract w s e ()
 mint wallet = do
     pkh <- pubKeyHash <$> ownPubKey
     let reqPk = (pubKeyHash . walletPubKey) wallet
-        val     = Value.singleton (curSymbol pkh) (TokenName $ getPubKeyHash reqPk) (1)
+        val     = Value.singleton (curSymbol pkh) (TokenName $ getPubKeyHash reqPk) 1
         lookups = Constraints.mintingPolicy $ policy pkh
         tx      = Constraints.mustMintValue val <>
                   Constraints.mustPayToPubKey reqPk val
@@ -77,7 +77,7 @@ inspect _ = do
             $ "Logging total Value : " <> show totalVal
     logInfo @String $ "Inspect complete"
 
-logOwnNftTokenName :: forall w s e. AsContractError e => Integer -> Contract w s e ()
+logOwnNftTokenName :: forall w s e. AsContractError e => () -> Contract w s e ()
 logOwnNftTokenName _ = do
     pkh <- pubKeyHash <$> ownPubKey
     let tn = TokenName $ getPubKeyHash pkh

@@ -21,7 +21,7 @@ printf "\n"
 printf "\n1. First, lets log the nft token name of wallet 2. Note the token name\n"
 read -n1 -r -p "Press any key to continue..." key
 printf "\n"
-curl -H "Content-Type: application/json" -X POST -d 0 http://localhost:9080/api/contract/instance/$W2_IID/endpoint/logOwnNftTokenName
+curl -H "Content-Type: application/json" -X POST -d '[]' http://localhost:9080/api/contract/instance/$W2_IID/endpoint/logOwnNftTokenName
 sleep 4
 printf "\n"
 
@@ -53,5 +53,3 @@ printf "\n"
 
 read -n1 -r -p "Press any key to continue..." key
 printf "\nTo conclude: What you saw is that Wallet 1 minted auth NFT with token name linked to the public of wallet 2 and delivered it\n"
-
-
