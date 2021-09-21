@@ -13,8 +13,8 @@ version:            0.1.0.0
 
 license: Apache-2.0
 license-files: LICENSE
-author:             Your name
-maintainer:         Your email
+author:             gannit
+maintainer:         gannit
 
 -- A copyright notice.
 -- copyright:
@@ -41,8 +41,7 @@ common lang
 library
     import: lang
     exposed-modules:
-      MyModule
-      Plutus.Contracts.Game
+      NFTAuthentication
     build-depends:
       base >= 4.9 && < 5,
       aeson,
@@ -53,7 +52,11 @@ library
       plutus-contract,
       plutus-tx-plugin,
       plutus-tx,
-      plutus-ledger
+      plutus-ledger,
+      text,
+      utf8-string,
+      plutus-ledger-api,
+      lens
     hs-source-dirs: src examples/src
 
 test-suite plutus-example-projects-test

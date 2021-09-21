@@ -190,6 +190,9 @@ Finally, also node that the PAB also exposes a websocket, which you can read abo
 the general [PAB Architecture documentation](https://github.com/input-output-hk/plutus/blob/master/plutus-pab/ARCHITECTURE.adoc).
 
 
+### User entr to watch your source file
+```ls src/Issuer.hs | entr -r cabal build plutus-starter-pab --dependencies-only --disable-documentation```
+
 ## Support/Issues/Community
 
 If you're looking for support, or would simply like to report a bug, feature
